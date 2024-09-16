@@ -1,7 +1,5 @@
 package contactBook;
 
-import contactBook.Contact;
-
 public class ContactBook {
     static final int DEFAULT_SIZE = 100;
 
@@ -30,6 +28,9 @@ public class ContactBook {
             resize();
         contacts[counter] = new Contact(name, phone, email);
         counter++;
+    }
+    public boolean hasContactPhone(int number) {
+        return searchPhoneIndex(number) >= 0;
     }
 
     //Pre: name != null && hasContact(name)
@@ -93,4 +94,32 @@ public class ContactBook {
         return contacts[currentContact++];
     }
 
+    public String getName(int number) {
+        return contacts[searchPhoneIndex(number)].getName();
+    }
+
+    private int searchPhoneIndex(int number) {
+        int i = 0;
+        int result = -1;
+        boolean found = false;
+        while (i<counter && !found)
+            if (contacts[i].getPhone() == number)
+                found = true;
+            else
+                i++;
+        if (found) result = i;
+        return result;
+    }
+    public boolean checkEqualPhone() {
+        boolean result = false;
+        for(int i = 0; i < counter; i++) {
+            for(int k = i+1; k < counter; k++) {
+                if(contacts[i].getPhone() == contacts[k].getPhone()) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
 }
